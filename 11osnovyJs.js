@@ -1,0 +1,1 @@
+for (let x=3; x<100000; x= x*3){console.log(x)}

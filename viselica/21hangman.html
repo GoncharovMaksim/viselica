@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Виселица!</title>
+	</head>
+	<body>
+		<h1>Виселица!</h1>
+		<canvas id="canvas" width="500" height="500"></canvas>
+
+		<script>
+			var canvas = document.getElementById('canvas');
+			var ctx = canvas.getContext('2d');
+
+			let words = [
+				'программа',
+				'макака',
+				'оладушек',
+				'пельмень',
+				'корова',
+				'вода',
+				'книга',
+				'школа',
+				'рюкзак',
+				'карандаш',
+				'солнце',
+				'цветок',
+				'пицца',
+				'дракон',
+				'клоун',
+				'замок',
+				'лес',
+				'гора',
+				'река',
+				'море',
+				'пират',
+				'остров',
+				'сокровище',
+				'звезда',
+				'планета',
+				'ракета',
+				'космос',
+				'астероид',
+				'метеорит',
+				'галактика',
+				'динозавр',
+				'вулкан',
+				'мамонт',
+				'пещера',
+				'лабиринт',
+				'фонарик',
+				'бабочка',
+				'жук',
+				'муравей',
+				'паук',
+				'черепаха',
+				'заяц',
+				'слон',
+				'тигр',
+				'лев',
+				'жираф',
+				'кенгуру',
+				'попугай',
+				'дельфин',
+				'акула',
+				'кит',
+				'осьминог',
+				'медуза',
+				'коралл',
+			];
+
+			const writeMan = function () {
+				ctx.strokeStyle = 'Red';
+				ctx.lineWidth = 4;
+				ctx.strokeRect(100, 0, 20, 20);
+				ctx.beginPath();
+				ctx.moveTo(110, 20);
+				ctx.lineTo(110, 60);
+				ctx.moveTo(110, 60);
+				ctx.lineTo(100, 90);
+				ctx.moveTo(110, 60);
+				ctx.lineTo(120, 90);
+
+				ctx.moveTo(110, 40);
+				ctx.lineTo(90, 20);
+				ctx.moveTo(110, 40);
+				ctx.lineTo(130, 20);
+				ctx.stroke();
+			};
+
+			let word = words[Math.floor(Math.random() * words.length)];
+			let answerArray = [];
+			for (let i = 0; i < word.length; i++) {
+				answerArray[i] = '_';
+			}
+			let remainingLetters = word.length;
+
+			let attempts = 10; // Игрок имеет 10 попыток
+			let guessedLetters = [];
+
+			while (remainingLetters > 0 && attempts > 0) {
+				alert(answerArray.join(' ') + '\nОсталось попыток: ' + attempts);
+				let guess = prompt(
+					'Угадайте букву или нажмите Отмена для выхода из игры.'
+				).toLowerCase();
+
+				if (guess === null) {
+					break;
+				} else if (guess.length !== 1) {
+					alert('Пожалуйста, введите только одну букву.');
+				} else {
+					if (guessedLetters.indexOf(guess) === -1) {
+						guessedLetters.push(guess);
+						let correctGuess = false;
+						for (let j = 0; j < word.length; j++) {
+							if (word[j] === guess && answerArray[j] === '_') {
+								answerArray[j] = guess;
+								remainingLetters--;
+								correctGuess = true;
+							}
+						}
+						if (!correctGuess) {
+							attempts--;
+							writeMan();
+						}
+					} else {
+						alert('Вы уже вводили эту букву. Попробуйте другую.');
+					}
+				}
+			}
+
+			if (attempts > 0) {
+				alert('Поздравляем! Было загадано слово ' + word);
+			} else {
+				alert('К сожалению, попытки закончились. Было загадано слово: ' + word);
+			}
+		</script>
+	</body>
+</html>

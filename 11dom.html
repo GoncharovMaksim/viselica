@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Изучаем DOM</title>
+  </head>
+  <body>
+    <h1 id="main-heading">Упражнение №1!</h1>
+
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+    <script>
+      var counter = 5;
+      var printMessage = function () {
+        console.log("Ты смотришь в консоль уже " + counter + " сек");
+        counter += 5;
+      };
+      var intervalId = setInterval(printMessage, 5000);
+      //clearInterval(intervalId);
+    </script>
+  </body>
+</html>

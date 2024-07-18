@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Canvas</title>
+	</head>
+	<body>
+		<canvas id="canvas" width="200" height="200"></canvas>
+		<script>
+			var canvas = document.getElementById('canvas');
+			var ctx = canvas.getContext('2d');
+
+			ctx.strokeRect(100, 0, 50, 50);
+			ctx.strokeStyle = 'Red';
+			ctx.strokeStyle = 'DeepPink';
+			ctx.lineWidth = 1;
+			ctx.strokeRect(120, 50, 10, 25);
+			ctx.fillStyle = 'Blue';
+			ctx.fillRect(60, 75, 130, 10);
+			ctx.fillStyle = 'Green';
+			ctx.fillRect(90, 85, 70, 70);
+			ctx.fillStyle = 'Yellow';
+			ctx.fillRect(90, 155, 10, 70);
+			ctx.fillStyle = 'Pink';
+			ctx.fillRect(150, 155, 10, 70);
+		</script>
+	</body>
+</html>

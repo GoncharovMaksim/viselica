@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Изучаем DOM</title>
+  </head>
+  <body>
+    <h1 id="main-heading">Упражнение №1!</h1>
+
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+    <script>
+      for (var i = 0; i < 5; i++) {
+        $("h1")
+          .text("Мои друзья")
+          .fadeOut(1000 * i)
+          .fadeIn(1000 * i);
+      }
+      const friends = ["Наташа", "Даниил", "Хомяк"];
+      for (var i = 0; i < friends.length; i++) {
+        $("<p>" + friends[i] + "</p>") // Создаем новый элемент <p>
+          .hide() // Сначала скрываем его
+          .appendTo("body") // Затем добавляем к <body>
+          .fadeIn(2000); // И после этого плавно показываем
+      }
+      $("p").append(" лучший!");
+    </script>
+  </body>
+</html>

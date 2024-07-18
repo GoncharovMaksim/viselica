@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Canvas</title>
+	</head>
+	<body>
+		<canvas id="canvas" width="500" height="500"></canvas>
+		<script>
+			var canvas = document.getElementById('canvas');
+
+			var ctx = canvas.getContext('2d');
+
+			var points = [
+				[50, 50],
+				[50, 100],
+				[100, 100],
+				[100, 50],
+				[50, 50],
+			];
+
+			var drawPoints = function (points) {
+				ctx.fillStyle = 'Blue';
+				ctx.beginPath();
+				ctx.moveTo(points[0][0], points[0][1]);
+				console.log(points[0][0], points[0][1]);
+				ctx.lineTo(points[1][0], points[1][1]);
+				ctx.lineTo(points[2][0], points[2][1]);
+				ctx.lineTo(points[3][0], points[3][1]);
+				ctx.lineTo(points[4][0], points[4][1]);
+
+				ctx.fill();
+			};
+			drawPoints(points);
+			console.log(points[1]);
+		</script>
+	</body>
+</html>

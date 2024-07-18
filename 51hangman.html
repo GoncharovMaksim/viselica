@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Виселица!</title>
+    <style>
+        #gameStatus, #userInput, #submitGuess, #restartGame, #registrationForm {
+            margin-top: 10px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        #guessInput, #username, #password {
+            font-size: 18px;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        button {
+            font-size: 18px;
+            padding: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Виселица!</h1>
+    <!-- Форма регистрации -->
+    <form id="registrationForm">
+        <input type="text" id="username" placeholder="Имя пользователя" required>
+        <input type="password" id="password" placeholder="Пароль" required>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <div id="gameStatus"></div>
+    <div id="userInput">
+        <input type="text" id="guessInput" placeholder="Введите букву" maxlength="1">
+        <button id="submitGuess">Угадать</button>
+    </div>
+    <button id="restartGame" style="display:none;">Начать заново</button>
+
+    <script type="module">
+        import { words } from './words.js';
+        
+        let word;
+        let answerArray;
+        let remainingLetters;
+        let attempts;
+        let guessedLetters;
+        
+        function startGame() {
+            word = words[Math.floor(Math.random()*words.length)];
+            answerArray = Array(word.length).fill("_");
+            remainingLetters = word.length;
+            attempts = 10;
+            guessedLetters = [];
+            document.getElementById('gameStatus').textContent = `Слово: ${answerArray.join(" ")} Осталось попыток: ${attempts}`;
+            document.getElementById('userInput').style.display = 'block';
+            document.getElementById('restartGame').style.display = 'none';
+        }
+        
+        function makeGuess() {
+            let guess = document.getElementById('guessInput').value.toLowerCase();
+            document.getElementById('guessInput').value = '';
+            if (guess.length !== 1) {
+                alert("Пожалуйста, введите только одну букву.");
+                return;
+            }
+            if (guessedLetters.indexOf(guess) !== -1) {
+                alert("Вы уже вводили эту букву. Попробуйте другую.");
+                return;
+            }
+            guessedLetters.push(guess);
+            let correctGuess = false;
+            for (let j = 0; j < word.length; j++) {
+                if (word[j] === guess && answerArray[j] === "_") {
+                    answerArray[j] = guess;
+                    remainingLetters--;
+                    correctGuess = true;
+                }
+            }
+            if (!correctGuess) {
+                attempts--;
+            }
+            document.getElementById('gameStatus').textContent = `Слово: ${answerArray.join(" ")} Осталось попыток: ${attempts}`;
+            if (remainingLetters === 0 || attempts === 0) {
+                displayOutcome();
+            }
+        }
+        
+        function displayOutcome() {
+            if (attempts > 0) {
+                document.getElementById('gameStatus').textContent = `Поздравляем! Было загадано слово ${word}`;
+            } else {
+                document.getElementById('gameStatus').textContent = `К сожалению, попытки закончились. Было загадано слово: ${word}`;
+            }
+            document.getElementById('userInput').style.display = 'none';
+            document.getElementById('restartGame').style.display = 'block';
+        }
+        
+        document.getElementById('submitGuess').addEventListener('click', makeGuess);
+        document.getElementById('restartGame').addEventListener('click', startGame);
+        
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Регистрация прошла успешно!');
+                } else {
+                    alert('Ошибка регистрации.');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        });
+        
+        function updateStats(win) {
+            const username = document.getElementById('username').value;
+            fetch('/updateStats', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, win })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Статистика обновлена:', data);
+            })
+            .catch(error => {
+                console.error('Ошибка при обновлении статистики:', error);
+            });
+        }
+        
+        startGame();
+    </script>
+</body>
+</html>

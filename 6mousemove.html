@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Перемещение мышки</title>
+  </head>
+  <body>
+    <h1 id="heading">Нажми МЕНЯ!</h1>
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+    <script>
+      var leftOffset = 0;
+      var topOffset = 0;
+      var direction = "right"; // Начальное направление движения
+
+      var moveHeading = function () {
+        if (direction === "right") {
+          $("#heading").offset({ left: leftOffset });
+          leftOffset++;
+          if (leftOffset > 200) {
+            direction = "down"; // Меняем направление на вниз
+            leftOffset = 200; // Фиксируем горизонтальное положение
+          }
+        } else if (direction === "down") {
+          $("#heading").offset({ top: topOffset });
+          topOffset++;
+          if (topOffset > 200) {
+            direction = "left"; // Меняем направление на влево
+            topOffset = 200; // Фиксируем вертикальное положение
+          }
+        } else if (direction === "left") {
+          $("#heading").offset({ left: leftOffset });
+          leftOffset--;
+          if (leftOffset < 0) {
+            direction = "up"; // Меняем направление на вверх
+            leftOffset = 0; // Сбрасываем горизонтальное положение
+          }
+        } else if (direction === "up") {
+          $("#heading").offset({ top: topOffset });
+          topOffset--;
+          if (topOffset < 0) {
+            direction = "right"; // Возвращаемся к движению вправо
+            topOffset = 0; // Сбрасываем вертикальное положение
+          }
+        }
+      };
+
+      var intervalId = setInterval(moveHeading, 120); // Сохраняем идентификатор интервала
+
+      var clickCount = 0; // Глобальная переменная для отслеживания количества кликов
+
+      var clickCount = 0; // Глобальная переменная для отслеживания количества кликов
+      var intervalIds = []; // Массив для хранения ID интервалов
+
+      $("h1").click(function () {
+        if (clickCount < 10) {
+          for (var i = 0; i < 3; i++) {
+            intervalIds.push(setInterval(moveHeading, 60));
+          }
+          clickCount++;
+          $("h1").text("Осталось нажать:" + (10 - clickCount));
+        } else {
+          // Останавливаем все интервалы
+          intervalIds.forEach(function (id) {
+            clearInterval(id);
+          });
+          // Очищаем массив ID интервалов
+          intervalIds = [];
+          // Выводим сообщение о победе
+          $("h1").text("Вы победили!");
+        }
+      });
+    </script>
+  </body>
+</html>

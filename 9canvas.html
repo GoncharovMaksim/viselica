@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Canvas</title>
+	</head>
+	<body>
+		<canvas id="canvas" width="500" height="500"></canvas>
+<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+<script>
+var xCoord, yCoord;
+
+$("html").mousemove(function (event) {
+  xCoord = event.pageX;
+  yCoord = event.pageY;
+  drawSnowman(xCoord, yCoord);
+
+  // Теперь переменные xCoord и yCoord содержат текущие координаты мыши
+  console.log("X: " + xCoord + ", Y: " + yCoord);
+});
+
+var canvas = document.getElementById('canvas');
+
+			var ctx = canvas.getContext('2d');
+			var circle = function (x, y, radius, fillCircle) {
+				ctx.beginPath();
+				ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+				if (fillCircle === true) {
+					ctx.fill();
+				} else {
+					ctx.stroke();
+				}
+			};
+
+			const drawSnowman = function (x, y) {
+				ctx.lineWidth = 4;
+				ctx.fillStyle = 'Red';
+				circle(x, y, 2, true);
+			};
+			
+
+
+</script> </body> </html>
+	</body>
+</html>

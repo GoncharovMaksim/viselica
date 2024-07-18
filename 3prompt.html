@@ -1,0 +1,69 @@
+<!DOCTYPE html><html>
+<head><meta charset="UTF-8"> 
+    <title>Моя первая настоящая HTML страница</title>
+</head>
+<body>
+<h1>Привет, друзья!</h1>
+
+<p> Моя первая игра - ВИСИЛИЦА.</p>
+
+<script>
+let words = ["программа","макака","прекрасный","оладушек","пельмень","корова","вода"];
+let word = words[Math.floor(Math.random()*words.length)];
+let answerArray = [];
+for(let i = 0; i<word.length; i++){
+    answerArray[i] = "_";
+}
+let remainingLetters = word.length;
+
+while (remainingLetters>0) {
+//Основной код
+//Показываем текущее состояние игры
+alert (answerArray.join(" "));
+//Запрашиваем вариант ответа
+let guess = prompt ("Угадайте букву или нажмите Отмена для выхода из игры.");
+if (guess === null) {
+    break;
+}
+else if(guess.length !== 1) {
+    alert ("Пожалуйста, введите только одну букву.");
+}
+else{
+//Обновляем answerArray и remainingLetters для каждого вхождения угаданной буквы   
+    for (let j = 0; j < word.length; j++) {
+        if (word[j] === guess){
+            answerArray[j] = guess; remainingLetters--;
+        }
+    }
+}
+ 
+}
+
+alert (answerArray,join(" "));
+alert ("Отдично! Было загадано слово " + word);
+
+
+
+
+
+
+
+
+
+
+
+
+
+let name = prompt ("Как вас зовут?")    
+
+console.log("Привет, " + name);
+if (name.length > 6){console.log("Ну и длинющее же у Вас имя!");}
+else {console.log("Ну и короткое же у Вас имя!");}
+let likesCats = confirm("Тебе нравятся кошки?");
+if (likesCats) {console.log("Ты классная кошка!")}
+else {console.log("Что ж, не проблема. Все равно ты молодец")};
+alert ("JavaScript это здорово!");
+
+</script>
+</body>
+</html>

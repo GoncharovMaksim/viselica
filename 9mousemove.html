@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Перемещение мышки</title>
+  </head>
+  <body>
+    <h1 id="heading">Нажми МЕНЯ!</h1>
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+
+    <script>
+      var leftOffset = 0;
+      var topOffset = 0;
+      var direction = "right"; // Начальное направление движения
+      var clickCount = 0; // Счётчик кликов по заголовку
+      var missClickCount = 0; // Счётчик промахов
+      var intervalTime = 30; // Начальное время интервала
+      var speedIncrease = 3; // Начальное увеличение скорости
+
+      var moveHeading = function () {
+        if (direction === "right") {
+          leftOffset += speedIncrease;
+          $("#heading").offset({ left: leftOffset });
+          if (leftOffset > 200) {
+            direction = "down";
+            leftOffset = 200;
+          }
+        } else if (direction === "down") {
+          topOffset += speedIncrease;
+          $("#heading").offset({ top: topOffset });
+          if (topOffset > 200) {
+            direction = "left";
+            topOffset = 200;
+          }
+        } else if (direction === "left") {
+          leftOffset -= speedIncrease;
+          $("#heading").offset({ left: leftOffset });
+          if (leftOffset < 0) {
+            direction = "up";
+            leftOffset = 0;
+          }
+        } else if (direction === "up") {
+          topOffset -= speedIncrease;
+          $("#heading").offset({ top: topOffset });
+          if (topOffset < 0) {
+            direction = "right";
+            topOffset = 0;
+          }
+        }
+      };
+
+      var intervalId = setInterval(moveHeading, intervalTime);
+
+      $("h1").click(function (event) {
+        event.stopPropagation(); // Предотвращаем всплытие события
+        clickCount++;
+        if (clickCount >= 10) {
+          clearInterval(intervalId);
+          $("h1").text("Вы победили!");
+        } else {
+          $("h1").text("Кликов: " + clickCount);
+          speedIncrease++; // Увеличиваем скорость движения с каждым кликом
+        }
+      });
+
+      $(document).click(function () {
+        missClickCount++;
+        if (missClickCount > 3) {
+          clearInterval(intervalId);
+          $("h1").text("Вы проиграли!");
+        }
+      });
+    </script>
+  </body>
+</html>

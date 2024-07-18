@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Перемещение мышки</title>
+  </head>
+  <body>
+    <h1 id="heading">Нажми МЕНЯ!</h1>
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+
+    <script>
+      var leftOffset = 0;
+      var topOffset = 0;
+      var direction = "right"; // Начальное направление движения
+      var clickCount = 0; // Счётчик кликов
+      var intervalTime = 30; // Начальное время интервала
+
+      var moveHeading = function () {
+        if (direction === "right") {
+          $("#heading").offset({ left: leftOffset });
+          leftOffset++;
+          if (leftOffset > 200) {
+            direction = "down"; // Меняем направление на вниз
+            leftOffset = 200; // Фиксируем горизонтальное положение
+          }
+        } else if (direction === "down") {
+          $("#heading").offset({ top: topOffset });
+          topOffset++;
+          if (topOffset > 200) {
+            direction = "left"; // Меняем направление на влево
+            topOffset = 200; // Фиксируем вертикальное положение
+          }
+        } else if (direction === "left") {
+          $("#heading").offset({ left: leftOffset });
+          leftOffset--;
+          if (leftOffset < 0) {
+            direction = "up"; // Меняем направление на вверх
+            leftOffset = 0; // Сбрасываем горизонтальное положение
+          }
+        } else if (direction === "up") {
+          $("#heading").offset({ top: topOffset });
+          topOffset--;
+          if (topOffset < 0) {
+            direction = "right"; // Возвращаемся к движению вправо
+            topOffset = 0; // Сбрасываем вертикальное положение
+          }
+        }
+      };
+
+      var intervalId = setInterval(moveHeading, intervalTime); // Устанавливаем начальный интервал
+
+      $("h1").click(function () {
+        clickCount++;
+        if (clickCount >= 10) {
+          clearInterval(intervalId); // Останавливаем интервал
+          $("h1").text("Вы победили!");
+        } else {
+          $("h1").text("Кликов: " + clickCount);
+          clearInterval(intervalId); // Останавливаем текущий интервал
+          intervalTime = Math.max(1, intervalTime - 20); // Уменьшаем время интервала
+          intervalId = setInterval(moveHeading, intervalTime); // Запускаем новый интервал
+        }
+      });
+    </script>
+  </body>
+</html>
